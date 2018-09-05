@@ -8,14 +8,16 @@ from clint.textui import puts, colored, prompt
 
 def display_query():
     puts(str(colored.white("""
-    The three questions which the tool answers are as follows:\n""") + colored.cyan("""
-      1. In order, what are the three most popular articles of all time?\n
-      2. In order, who are the most popular article authors of all time?\n
-      3. In order, on which days did more than 1% of requests lead to errors?\n""") + colored.white("""
-    Please type in the number corresponding to the question you'd like
-    answered, and press ENTER.""")))
+  The three questions which the tool answers are as follows:\n""") +
+             colored.cyan("""
+    1. In order, what are the three most popular articles of all time?\n
+    2. In order, who are the most popular article authors of all time?\n
+    3. In order, on which days did more than 1% of requests""" +
+                          """lead to errors?\n""") + colored.white("""
+  Please type in the number corresponding to the question you'd like
+  answered, and press ENTER.""")))
     command = prompt.query(str(colored.green("""
-    Enter a command:""", bold=True)))
+  Enter a command:""", bold=True)))
     handle_user_input(command)
 
 
@@ -29,7 +31,7 @@ def handle_user_input(command):
       articles,
       log
     where
-      path like ('%' || slug || '%')
+      path like ('/article/' || slug)
     group by
       title
     order by
@@ -46,7 +48,7 @@ def handle_user_input(command):
       log
     where
       articles.author = authors.id
-      and path like ('%' || slug || '%')
+      and path like ('/article/' || slug)
     group by
       authors.name
     order by
